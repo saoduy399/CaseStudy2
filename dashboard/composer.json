@@ -1,0 +1,23 @@
+{
+  "name": "vendor_name/dashboard",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "duytran",
+      "email": "email@example.com"
+    }
+  ],
+
+"autoload": {
+  "psr-4": {
+    "App\\models\\": "App/Models",
+    "App\\Controller\\": "App/Controllers",
+    "App\\": "Resource/"
+  }
+},
+
+  "require": {
+  }
+}
