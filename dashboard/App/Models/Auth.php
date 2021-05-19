@@ -22,7 +22,9 @@ class Auth
         return $stmt->fetch();
     }
 
-    public function addAccount($firstname,$lastname,$email,$password){
+
+    public function addAccount($firstname, $lastname, $email, $password)
+    {
         $sql = "INSERT INTO customers VALUE(null,?,?,?,?)";
         $stmt = $this->connect->prepare($sql);
         $stmt->bindParam(1, $firstname);
@@ -34,12 +36,13 @@ class Auth
         return $stmt->execute();
     }
 
-    public function getAllAccount(){
+    public function getAllAccount()
+    {
         $sql = "SELECT * FROM customers";
         $stmt = $this->connect->prepare($sql);
         $result = $stmt->fetchAll();
-        $accounts=[];
-        foreach ($result as $item){
+        $accounts = [];
+        foreach ($result as $item) {
             $account = new Account($item['firstname'], $item['lastname'], $item['email'], $item['password']);
             $account->id = $item['id'];
 
@@ -48,22 +51,8 @@ class Auth
         return $accounts;
     }
 
-//    public function checkRegister($firstname,$lastname,$email,$password){
-//        $account = $this->getAllAccount();
-//        foreach ($account as $item){
-//            if($email == $item->email){
-//                echo "This email has been registered" ;
-//                return;
-//            } else {
-//                $ad = $this->addAccount($firstname,$lastname,$email,$password);
-//                echo "register successfully";
-//            }
-//        }
-//    }
-
-
-
-    public function checkRegister($email){
+    public function checkRegister($email)
+    {
         $sql = "SELECT email FROM customers WHERE email= ?";
         $stmt = $this->connect->prepare($sql);
         $stmt->bindParam(1, $email);

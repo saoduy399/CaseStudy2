@@ -3,10 +3,9 @@
 include_once "../../../vendor/autoload.php";
 
 $controller = new \App\Controller\GoodsController();
-
-$goods = $controller->getAllGoods();
+$goods = $controller->getGoodsById($_GET['id']);
 if (empty($_SESSION["userLogin"])){
-    header("location: login.php");
+    header("location: ../../../login.php");
 }
 
 ?>
@@ -27,8 +26,8 @@ if (empty($_SESSION["userLogin"])){
         <!-- Custom fonts for this template-->
         <link href="../../../public/css/all.min.css" rel="stylesheet" type="text/css">
         <link
-                href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-                rel="stylesheet">
+            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+            rel="stylesheet">
 
         <!-- Custom styles for this template-->
         <link href="../../../public/css/sb-admin-2.min.css" rel="stylesheet">
@@ -48,7 +47,7 @@ if (empty($_SESSION["userLogin"])){
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3"><?php echo "Welcome " . $_SESSION["userLogin"]; ?></div>
+                <div class="sidebar-brand-text mx-3"> <?php echo "Welcome " . $_SESSION["userLogin"]; ?></div>
             </a>
 
             <!-- Divider -->
@@ -207,7 +206,7 @@ if (empty($_SESSION["userLogin"])){
 
                     <!-- Topbar Search -->
                     <form
-                            class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
                                    aria-label="Search" aria-describedby="basic-addon2">
@@ -412,7 +411,7 @@ if (empty($_SESSION["userLogin"])){
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                         <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                     </div>
 
                     <!-- Content Row -->
@@ -514,36 +513,23 @@ if (empty($_SESSION["userLogin"])){
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary"><a href="dash-board-add-goods.php">Add Foods</a></h6>
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <h6 class="m-0 font-weight-bold text-primary"><a href="dash-board.php?page=add_goods">Add Foods</a></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary"><a href="dash-board.php">list goods</a></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">
+
+                                    </h6>
                                     All Goods
                                 </div>
 
                                 <!-- Card Body -->
-
-                                <table border="1px" style="text-align: center">
-                                    <tr>
-                                        <th>id</th>
-                                        <th>name</th>
-                                        <th>price</th>
-                                        <th>description</th>
-                                        <th>img</th>
-                                        <th colspan="2">Update</th>
-                                    </tr>
-                                    <?php foreach ($goods as $item): ?>
-                                        <tr>
-                                            <td><?php echo $item['id'] ?></td>
-                                            <td><?php echo $item['name'] ?></td>
-                                            <td><?php echo $item['price'] ?></td>
-                                            <td><?php echo $item['description'] ?></td>
-                                            <td><?php echo $item['img'] ?></td>
-                                            <td><a href="dash-board.php?page=delete_goods&id=<?php echo $item['id'] ?>">delete</a>
-                                            </td>
-                                            <td><a href="dash-board-update-goods.php?id=<?php echo $item['id'] ?>">Update</a>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </table>
+                                <form method="post">
+                                    <input type="text" name="name" value="<?php echo $goods['name']?>" >
+                                    <input type="text" name="price" value="<?php echo $goods['price']?>">
+                                    <input type="text" name="description" value="<?php echo $goods['description']?>">
+                                    <input type="text" name="img" value="<?php echo $goods['img']?>">
+                                    <button type="submit">OK</button>
+                                </form>
                                 <!-- Card Body -->
                                 <div class="card-body">
                                     <div class="chart-area">
@@ -558,7 +544,7 @@ if (empty($_SESSION["userLogin"])){
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
-                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
@@ -609,31 +595,31 @@ if (empty($_SESSION["userLogin"])){
                                 </div>
                                 <div class="card-body">
                                     <h4 class="small font-weight-bold">Server Migration <span
-                                                class="float-right">20%</span></h4>
+                                            class="float-right">20%</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
                                              aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h4 class="small font-weight-bold">Sales Tracking <span
-                                                class="float-right">40%</span></h4>
+                                            class="float-right">40%</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
                                              aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h4 class="small font-weight-bold">Customer Database <span
-                                                class="float-right">60%</span></h4>
+                                            class="float-right">60%</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar" role="progressbar" style="width: 60%"
                                              aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h4 class="small font-weight-bold">Payout Details <span
-                                                class="float-right">80%</span></h4>
+                                            class="float-right">80%</span></h4>
                                     <div class="progress mb-4">
                                         <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
                                              aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                                     </div>
                                     <h4 class="small font-weight-bold">Account Setup <span
-                                                class="float-right">Complete!</span></h4>
+                                            class="float-right">Complete!</span></h4>
                                     <div class="progress">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
                                              aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
@@ -724,7 +710,7 @@ if (empty($_SESSION["userLogin"])){
                                              src="img/undraw_posting_photo.svg" alt="...">
                                     </div>
                                     <p>Add some quality, svg illustrations to your project courtesy of <a
-                                                target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
+                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
                                         constantly updated collection of beautiful svg images that you can use
                                         completely free and without attribution!</p>
                                     <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
@@ -817,7 +803,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_destroy();
         header("location: ../../../index.php");
     }
-
 }
 $page = null;
 if (isset($_GET['page'])) {
@@ -827,5 +812,19 @@ switch ($page) {
     case "delete_goods":
         $id = $_GET['id'];
         $controller->deleteGoods($id);
+        header("location:dash-board.php");
         break;
+}
+
+if ($_SERVER['REQUEST_METHOD']=="POST") {
+
+    $id = $goods['id'];
+    $name = $_REQUEST["name"];
+    $price = $_REQUEST["price"];
+    $description = $_REQUEST["description"];
+    $img = $_REQUEST["img"];
+
+    $controller->updateGoods($id,$name, $price, $description,$img);
+
+    header("location: dash-board.php");
 }

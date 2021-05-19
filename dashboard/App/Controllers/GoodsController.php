@@ -27,7 +27,7 @@ class GoodsController
     public function addGoods($name, $price, $description, $img){
         $sql = "INSERT INTO goods VALUE(null,'$name','$price','$description','$img')";
         $query = $this->connect->query($sql);
-        return $query->execute();
+        return $query->exec();
     }
 
     public function updateGoods($id,$name, $price, $description,$img){

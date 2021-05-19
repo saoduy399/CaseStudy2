@@ -72,7 +72,7 @@ $goods = $controller->getAllGoods();
             <?php foreach ($goods as $item) { ?>
                     <div class="food-menu-box">
                         <div class="food-menu-img">
-                            <?php echo $item['img']?>
+                            <img class="img-responsive img-curve" src= "<?php echo '../../../public/photos/'.$item['img']?>"?>
                         </div>
 
                         <div class="food-menu-desc">

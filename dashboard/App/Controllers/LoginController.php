@@ -23,11 +23,10 @@ class LoginController
         $email = $_REQUEST["email"];
         $password = $_REQUEST["password"];
         $result = $this->authModel->checkUser($email, $password);
-
+        $_SESSION["userLogin"] = $email;
         if (!$result) {
             header("location: ../../Resource/Views/pages/login.php");
         } else {
-            $_SESSION["userLogin"] = $result;
             header("location: dash-board.php");
         }
     }
